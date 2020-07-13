@@ -15,8 +15,28 @@ mattis facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.[^note
 [^note]: This is a footenote
 
 ```haskell
-f :: Int -> Int
-f x = m * x
+data Expr a = Var a | Val Int | Add (Expr a) (Expr a)
+  deriving(Show, Eq)
+
+instance Functor Expr where
+  -- fmap ∷ (a → b) → f a → f b
+  fmap g (Var a) = Var (g a)
+  fmap _ (Val n) = Val n
+  fmap g (Add a b) = Add (fmap g a) (fmap g b)
+
+instance Applicative Expr where
+  -- pure ∷ a → f a
+  pure a = Var a
+  -- (<*>) ∷ f (a → b) → f a → f b
+  (Var f) <*> x = fmap f x
+  (Val n) <*> _ = Val n
+  (Add a b) <*> x = Add (a <*> x) (b <*> x)
+
+instance Monad Expr where
+  -- (>>=) ∷ m α → (α → m β) → m β
+  (Var a) >>= k = k a
+  (Val n) >>= _ = Val n
+  (Add a b) >>= k = Add (a >>= k) (b >>= k)
 ```
 
 Proin vulputate sapien facilisis leo ornare pulvinar. Fusce tempus massa a risus
@@ -25,7 +45,14 @@ facilisis mattis. Sed ornare auctor dui, vitae rutrum neque auctor sit amet.
 Proin ac dui magna. Mauris vehicula interdum augue, nec ultrices libero egestas
 quis. This is an inline $\int x dx = 0$ Nunc convallis euismod ipsum, id sollicitudin orci consequat ac.
 
-$$e = mc^2$$
+$$\begin{align}
+e = mc^2
+\end{align}$$
+
+$$\begin{array}{cc}
+a & b \\
+c & c
+\end{array}$$
 
 Fusce
 bibendum congue libero, in rutrum nulla congue non. Cras sit amet risus tortor,

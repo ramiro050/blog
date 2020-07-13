@@ -1,0 +1,61 @@
+* This is a title
+
+** This is subsection
+
+#+begin_src haskell
+data Expr a = Var a | Val Int | Add (Expr a) (Expr a)
+  deriving(Show, Eq)
+
+instance Functor Expr where
+  -- fmap ∷ (a → b) → f a → f b
+  fmap g (Var a) = Var (g a)
+  fmap _ (Val n) = Val n
+  fmap g (Add a b) = Add (fmap g a) (fmap g b)
+
+instance Applicative Expr where
+  -- pure ∷ a → f a
+  pure a = Var a
+  -- (<*>) ∷ f (a → b) → f a → f b
+  (Var f) <*> x = fmap f x
+  (Val n) <*> _ = Val n
+  (Add a b) <*> x = Add (a <*> x) (b <*> x)
+
+instance Monad Expr where
+  -- (>>=) ∷ m α → (α → m β) → m β
+  (Var a) >>= k = k a
+  (Val n) >>= _ = Val n
+  (Add a b) >>= k = Add (a >>= k) (b >>= k)
+#+end_src
+
+We can also do equations!![fn:1]
+
+#+begin_export html
+<div class="epigraph">
+  <blockquote>
+    <p>
+       Great clouds overhead
+ Tiny black birds rise and fall
+ Snow covers Emacs
+    </p>
+
+    <footer>Alex Schroeder</footer>
+  </blockquote>
+</div>
+
+#+end_export
+
+#+begin_export html
+<blockquote>
+  <p>
+    [It is] notable that the Feynman lectures (3 volumes) write about all of physics in 1800 pages, using only 2 levels of hierarchical headings: chapters and A-level heads in the text. It also uses the methodology of sentences which then cumulate sequentially into paragraphs, rather than the grunts of bullet points. Undergraduate Caltech physics is very complicated material, but it didn’t require an elaborate hierarchy to organize.
+  </p>
+
+  <footer><a href="http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0000hB">Edward Tufte, forum post, ‘Book design: advice and examples’ thread</a></footer>
+</blockquote>
+#+end_export
+
+$$\begin{align*}
+  e = mc^2
+\end{align*}$$
+
+[fn:1] {-} This is a footnote 
