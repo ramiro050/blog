@@ -1,13 +1,16 @@
 ---
 title: Carpe Diem
+author: Ramiro Leal-Cavazos
 ---
+
+## This post is about something
 
 Fusce tortor quam, egestas in posuere quis, porttitor vel turpis. Donec
 vulputate porttitor augue at rhoncus. Proin iaculis consectetur sagittis.
 Curabitur venenatis turpis sit amet purus tristique nec posuere risus laoreet.
 Nullam nisi sem, dapibus id semper id, egestas vel arcu. Morbi porttitor ipsum
 placerat erat consequat sed consequat purus feugiat. Donec auctor elit ut risus
-mattis facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+mattis facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.^[this is a footnote]
 
 Proin vulputate sapien facilisis leo ornare pulvinar. Fusce tempus massa a risus
 semper iaculis. Suspendisse sollicitudin posuere nunc, sit amet rutrum leo
