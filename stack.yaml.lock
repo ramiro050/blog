@@ -11,6 +11,17 @@ packages:
       sha256: bdbacc241f680dd0c8d7666c9ec4e7d230dad85172067e106cc35f7c125cd7ab
   original:
     hackage: hakyll-4.13.3.0
+- completed:
+    size: 4865
+    url: https://github.com/jez/pandoc-sidenote/archive/766eb9db5c849b1007f5c310b8012e7da68e51a6.tar.gz
+    name: pandoc-sidenote
+    version: 0.20.0.0
+    sha256: f4babcef5b07aa1704614e4ceed6a8582e2c9abd83a23ddaf8cddc44857dfb2f
+    pantry-tree:
+      size: 575
+      sha256: e761a50c0c3eeb83b3b736da398a794366b3e598eeefc3bc6f8598e9591a39ea
+  original:
+    url: https://github.com/jez/pandoc-sidenote/archive/766eb9db5c849b1007f5c310b8012e7da68e51a6.tar.gz
 snapshots:
 - completed:
     size: 531701
