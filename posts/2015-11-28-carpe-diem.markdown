@@ -10,7 +10,9 @@ vulputate porttitor augue at rhoncus. Proin iaculis consectetur sagittis.
 Curabitur venenatis turpis sit amet purus tristique nec posuere risus laoreet.
 Nullam nisi sem, dapibus id semper id, egestas vel arcu. Morbi porttitor ipsum
 placerat erat consequat sed consequat purus feugiat. Donec auctor elit ut risus
-mattis facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.^[this is a footnote]
+mattis facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.[^note]
+
+[^note]: This is a footenote
 
 Proin vulputate sapien facilisis leo ornare pulvinar. Fusce tempus massa a risus
 semper iaculis. Suspendisse sollicitudin posuere nunc, sit amet rutrum leo
@@ -22,7 +24,9 @@ eu pellentesque dui. Phasellus euismod enim non nibh sodales quis consectetur
 lorem laoreet. Vivamus a egestas quam. Curabitur in tortor augue, vitae varius
 tellus. Integer varius, elit ac gravida suscipit, eros erat pellentesque nisi,
 et tristique augue odio id nulla. Aliquam sit amet nunc vel tellus hendrerit
-tempus ac vel sem.
+tempus ac vel sem.[^note2]
+
+[^note2]: {-} This is a different type of footnote
 
 Aenean tincidunt sollicitudin sapien ut porttitor. Curabitur molestie adipiscing
 lorem vel scelerisque. Donec vitae interdum est. Proin rutrum vulputate

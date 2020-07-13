@@ -426,16 +426,22 @@ span.newthought {
     font-size: 1.2em;
 }
 
+span.sidenote::before {
+    color: #880000;
+}
+
 input.margin-toggle {
     display: none;
 }
 
 label.sidenote-number {
     display: inline;
+    color: #880000;
 }
 
 label.margin-toggle:not(.sidenote-number) {
     display: none;
+    color: #880000;
 }
 
 .iframe-wrapper {
