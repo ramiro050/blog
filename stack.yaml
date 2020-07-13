@@ -3,5 +3,6 @@ packages:
   - .
 extra-deps:
   - hakyll-4.13.3.0
+  - pandoc-2.9.2.1
   - github: jez/pandoc-sidenote
     commit: 766eb9db5c849b1007f5c310b8012e7da68e51a6

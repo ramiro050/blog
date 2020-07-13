@@ -3,6 +3,7 @@
 import           Data.Monoid (mappend)
 import           Hakyll
 import           Text.Pandoc.SideNote (usingSideNotes)
+import           Text.Pandoc.Options
 
 
 --------------------------------------------------------------------------------
@@ -40,7 +41,7 @@ main = hakyll $ do
 
     match "posts/*" $ do
         route $ setExtension "html"
-        compile $ pandocCompilerWithTransform defaultHakyllReaderOptions defaultHakyllWriterOptions usingSideNotes
+        compile $ pandocCompilerWithTransform defaultHakyllReaderOptions myWriterOptions usingSideNotes
             >>= loadAndApplyTemplate "templates/post.html"    postCtx
             >>= loadAndApplyTemplate "templates/default.html" postCtx
             >>= relativizeUrls
@@ -81,3 +82,7 @@ postCtx :: Context String
 postCtx =
     dateField "date" "%B %e, %Y" `mappend`
     defaultContext
+
+myWriterOptions :: WriterOptions
+myWriterOptions = defaultHakyllWriterOptions
+  { writerHTMLMathMethod = MathJax defaultMathJaxURL }

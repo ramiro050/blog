@@ -14,11 +14,20 @@ mattis facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.[^note
 
 [^note]: This is a footenote
 
+```haskell
+f :: Int -> Int
+f x = m * x
+```
+
 Proin vulputate sapien facilisis leo ornare pulvinar. Fusce tempus massa a risus
 semper iaculis. Suspendisse sollicitudin posuere nunc, sit amet rutrum leo
 facilisis mattis. Sed ornare auctor dui, vitae rutrum neque auctor sit amet.
 Proin ac dui magna. Mauris vehicula interdum augue, nec ultrices libero egestas
-quis. Nunc convallis euismod ipsum, id sollicitudin orci consequat ac. Fusce
+quis. This is an inline $\int x dx = 0$ Nunc convallis euismod ipsum, id sollicitudin orci consequat ac.
+
+$$e = mc^2$$
+
+Fusce
 bibendum congue libero, in rutrum nulla congue non. Cras sit amet risus tortor,
 eu pellentesque dui. Phasellus euismod enim non nibh sodales quis consectetur
 lorem laoreet. Vivamus a egestas quam. Curabitur in tortor augue, vitae varius
@@ -27,6 +36,20 @@ et tristique augue odio id nulla. Aliquam sit amet nunc vel tellus hendrerit
 tempus ac vel sem.[^note2]
 
 [^note2]: {-} This is a different type of footnote
+
+> [It is] notable that the Feynman lectures (3 volumes) write about all of
+> physics in 1800 pages, using only 2 levels of hierarchical headings: chapters
+> and A-level heads in the text. It also uses the methodology of
+> <em>sentences</em> which then cumulate sequentially into *paragraphs*,
+> rather than the grunts of bullet points. Undergraduate Caltech physics is very
+> complicated material, but it didn't require an elaborate hierarchy to
+> organize.
+>
+> <footer>
+> [Edward Tufte, forum post, 'Book design: advice and examples' thread][quote-cite]
+> </footer>
+
+[quote-cite]: http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0000hB
 
 Aenean tincidunt sollicitudin sapien ut porttitor. Curabitur molestie adipiscing
 lorem vel scelerisque. Donec vitae interdum est. Proin rutrum vulputate
@@ -37,6 +60,16 @@ Praesent ultrices interdum commodo. Sed euismod nisl auctor leo ultrices rutrum.
 Aliquam nibh felis, congue molestie blandit at, bibendum at eros. Aenean
 tincidunt, tortor iaculis placerat sollicitudin, lorem justo tempor diam, et
 posuere sapien leo et magna. Quisque vel aliquam mauris.
+
+<div class="epigraph">
+
+> The English language . . . becomes ugly and inaccurate because our thoughts
+> are foolish, but the slovenliness of our language makes it easier for us to
+> have foolish thoughts.
+>
+> <footer>George Orwell, "Politics and the English Language"</footer>
+
+</div>
 
 Proin varius tempus fermentum. Cum sociis natoque penatibus et magnis dis
 parturient montes, nascetur ridiculus mus. Sed tincidunt nunc id magna
