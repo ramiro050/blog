@@ -1,4 +1,7 @@
-* This is a title
+---
+title: This is the title
+author: Ramiro Leal
+---
 
 ** This is subsection
 
