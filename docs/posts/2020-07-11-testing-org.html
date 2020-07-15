@@ -35,27 +35,42 @@
 
     <main role="main">
       <h1>Are Haskell Functors actual Functors?</h1>
+      
+      <h3>This is sibtitle</h3>
+      
       <article>
   <section class="header">
     Posted on July 13, 2020
     
     by Ramiro Leal
     
+    <br>
+    
+    Tags: <a title="All pages tagged 'haskell'." href="../tags/haskell.html">haskell</a>, <a title="All pages tagged 'stuff'." href="../tags/stuff.html">stuff</a>
+    
   </section>
   <section>
     <h2 id="how-are-functors-defined-in-haskell">How are functors defined in haskell?</h2>
-<p>Are Haskell functors actual functors? Let’s take as an example the list instance of functor:<span><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">This is the actual implemenetation used in the <a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Prelude.html">Haskell Prelude</a>.<br />
+<p>Are Haskell “functors” actual functors? Let’s take as an example the list instance of functor:<span><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">This is the actual implemenetation used in the <a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Prelude.html">Haskell Prelude</a>.<br />
 <br />
 </span></span></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Functor</span> [] <span class="kw">where</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>  <span class="co">-- fmap ∷ (α → β) → [α] → [β]</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>  <span class="fu">fmap</span> _ []     <span class="ot">=</span> []</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>  <span class="fu">fmap</span> _ []     <span class="ot">=</span> [] </span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>  <span class="fu">fmap</span> f (x<span class="op">:</span>xs) <span class="ot">=</span> fx <span class="op">:</span> <span class="fu">fmap</span> f xs</span></code></pre></div>
 <p>In order to better understand if <code>[]</code> is a functor, we first need to note that a functor <span class="math inline">\(F : \mathbf{C} \to \mathbf{D}\)</span> can take different things as inputs: Objects and Arrows. Thus, <span class="math inline">\(F\)</span> can be thought of as a two functions in one:</p>
 <div class="sourceCode" id="cb2" data-results="output silent"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>f <span class="ot">∷</span> <span class="dt">Int</span> <span class="ot">→</span> <span class="dt">Int</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>f x <span class="ot">=</span> x</span></code></pre></div>
+<p>This is a citation <span class="citation" data-cites="10.1145/871895.871896">[1]</span></p>
+<p>This is a citation <span class="citation" data-cites="10.1145/871895.871896">[1]</span></p>
 <div class="sourceCode" id="cb3" data-results="code"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="fu">take</span> <span class="dv">4</span> [<span class="dv">1</span><span class="op">..</span>]</span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="fu">fmap</span> _ []     <span class="ot">=</span> [] <span class="fu">fmap</span> f (x<span class="op">:</span>xs) <span class="ot">=</span> fx <span class="op">:</span> <span class="fu">fmap</span> f xs <span class="fu">fmap</span> _ []     <span class="ot">=</span> [] <span class="fu">fmap</span> f (x<span class="op">:</span>xs) <span class="ot">=</span> fx <span class="op">:</span> <span class="fu">fmap</span> f xs</span></code></pre></div>
+<hr />
+<div id="refs" class="references" role="doc-bibliography">
+<div id="ref-10.1145/871895.871896">
+<p>[1] Richard Bird and Ralf Hinze. 2003. Functional pearl trouble shared is trouble halved. In <em>Proceedings of the 2003 acm sigplan workshop on haskell</em> (Haskell ’03), Association for Computing Machinery, New York, NY, USA, 1–6. DOI:<a href="https://doi.org/10.1145/871895.871896">https://doi.org/10.1145/871895.871896</a></p>
+</div>
+</div>
   </section>
 </article>
 
