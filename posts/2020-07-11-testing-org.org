@@ -17,7 +17,7 @@ Are Haskell "functors" actual functors? Let’s take as an example the list inst
 #+begin_src haskell
 instance Functor [] where
   -- fmap ∷ (α → β) → [α] → [β]
-  fmap _ []     = []
+  fmap _ []     = [] 
   fmap f (x:xs) = fx : fmap f xs
 #+end_src
 
@@ -38,7 +38,7 @@ ghci> take 4 [1..]
 #+end_src
 
 #+begin_src haskell
-[1,2,3,4]
+  fmap _ []     = [] fmap f (x:xs) = fx : fmap f xs fmap _ []     = [] fmap f (x:xs) = fx : fmap f xs
 #+end_src
 
 ----------------

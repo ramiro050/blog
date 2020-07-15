@@ -478,6 +478,11 @@ label.margin-toggle:not(.sidenote-number) {
         width: 100%;
     }
 
+    div.references > div > p {
+    width: 100%;
+    font-size: 1.0rem;
+    }
+
     pre > code {
         width: 97%;
     }
