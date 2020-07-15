@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Hakyll Blog - Carpe Diem</title>
+    <link rel="stylesheet" href="../css/tufte-ibm.css" />
+    <link rel="stylesheet" href="../css/styles/default.css">
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <a href="../">On Computer Science</a>
+      </div>
+      <nav class="group">
+        <a href="../">Home</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+        <a href="../archive.html">Archive</a>
+        <a href="https://github.com/ramiro050">Github</a>
+      </nav>
+    </header>
+
+    <main role="main">
+      <h1>Carpe Diem</h1>
+      
+      <article>
+  <section class="header">
+    Posted on November 28, 2015
+    
+    by Ramiro Leal-Cavazos
+    
+    <br>
+    
+    Tags: 
+    
+  </section>
+  <section>
+    <h2 id="this-post-is-about-something">This post is about something</h2>
+<p>Fusce tortor quam, egestas in posuere quis, porttitor vel turpis. Donec vulputate porttitor augue at rhoncus. Proin iaculis consectetur sagittis. Curabitur venenatis turpis sit amet purus tristique nec posuere risus laoreet. Nullam nisi sem, dapibus id semper id, egestas vel arcu. Morbi porttitor ipsum placerat erat consequat sed consequat purus feugiat. Donec auctor elit ut risus mattis facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.<span><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">This is a footenote<br />
+<br />
+</span></span></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Expr</span> a <span class="ot">=</span> <span class="dt">Var</span> a <span class="op">|</span> <span class="dt">Val</span> <span class="dt">Int</span> <span class="op">|</span> <span class="dt">Add</span> (<span class="dt">Expr</span> a) (<span class="dt">Expr</span> a)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>  <span class="kw">deriving</span>(<span class="dt">Show</span>, <span class="dt">Eq</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Expr</span> <span class="kw">where</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>  <span class="co">-- fmap ∷ (a → b) → f a → f b</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>  <span class="fu">fmap</span> g (<span class="dt">Var</span> a) <span class="ot">=</span> <span class="dt">Var</span> (g a)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>  <span class="fu">fmap</span> _ (<span class="dt">Val</span> n) <span class="ot">=</span> <span class="dt">Val</span> n</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>  <span class="fu">fmap</span> g (<span class="dt">Add</span> a b) <span class="ot">=</span> <span class="dt">Add</span> (<span class="fu">fmap</span> g a) (<span class="fu">fmap</span> g b)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Applicative</span> <span class="dt">Expr</span> <span class="kw">where</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>  <span class="co">-- pure ∷ a → f a</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>  <span class="fu">pure</span> a <span class="ot">=</span> <span class="dt">Var</span> a</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>  <span class="co">-- (&lt;*&gt;) ∷ f (a → b) → f a → f b</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>  (<span class="dt">Var</span> f) <span class="op">&lt;*&gt;</span> x <span class="ot">=</span> <span class="fu">fmap</span> f x</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>  (<span class="dt">Val</span> n) <span class="op">&lt;*&gt;</span> _ <span class="ot">=</span> <span class="dt">Val</span> n</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>  (<span class="dt">Add</span> a b) <span class="op">&lt;*&gt;</span> x <span class="ot">=</span> <span class="dt">Add</span> (a <span class="op">&lt;*&gt;</span> x) (b <span class="op">&lt;*&gt;</span> x)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Monad</span> <span class="dt">Expr</span> <span class="kw">where</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a>  <span class="co">-- (&gt;&gt;=) ∷ m α → (α → m β) → m β</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a>  (<span class="dt">Var</span> a) <span class="op">&gt;&gt;=</span> k <span class="ot">=</span> k a</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a>  (<span class="dt">Val</span> n) <span class="op">&gt;&gt;=</span> _ <span class="ot">=</span> <span class="dt">Val</span> n</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a>  (<span class="dt">Add</span> a b) <span class="op">&gt;&gt;=</span> k <span class="ot">=</span> <span class="dt">Add</span> (a <span class="op">&gt;&gt;=</span> k) (b <span class="op">&gt;&gt;=</span> k)</span></code></pre></div>
+<p>Proin vulputate sapien facilisis leo ornare pulvinar. Fusce tempus massa a risus semper iaculis. Suspendisse sollicitudin posuere nunc, sit amet rutrum leo facilisis mattis. Sed ornare auctor dui, vitae rutrum neque auctor sit amet. Proin ac dui magna. Mauris vehicula interdum augue, nec ultrices libero egestas quis. This is an inline <span class="math inline">\(\int x dx = 0\)</span> Nunc convallis euismod ipsum, id sollicitudin orci consequat ac.</p>
+<p><span class="math display">\[\begin{align}
+e = mc^2
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{array}{cc}
+a &amp; b \\
+c &amp; c
+\end{array}\]</span></p>
+<p>Fusce bibendum congue libero, in rutrum nulla congue non. Cras sit amet risus tortor, eu pellentesque dui. Phasellus euismod enim non nibh sodales quis consectetur lorem laoreet. Vivamus a egestas quam. Curabitur in tortor augue, vitae varius tellus. Integer varius, elit ac gravida suscipit, eros erat pellentesque nisi, et tristique augue odio id nulla. Aliquam sit amet nunc vel tellus hendrerit tempus ac vel sem.<span><label for="sn-1" class="margin-toggle">⊕</label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="marginnote"> This is a different type of footnote<br />
+<br />
+</span></span></p>
+<blockquote>
+<p>[It is] notable that the Feynman lectures (3 volumes) write about all of physics in 1800 pages, using only 2 levels of hierarchical headings: chapters and A-level heads in the text. It also uses the methodology of <em>sentences</em> which then cumulate sequentially into <em>paragraphs</em>, rather than the grunts of bullet points. Undergraduate Caltech physics is very complicated material, but it didn’t require an elaborate hierarchy to organize.</p>
+<footer>
+<a href="http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0000hB">Edward Tufte, forum post, ‘Book design: advice and examples’ thread</a>
+</footer>
+</blockquote>
+<p>Aenean tincidunt sollicitudin sapien ut porttitor. Curabitur molestie adipiscing lorem vel scelerisque. Donec vitae interdum est. Proin rutrum vulputate faucibus. Suspendisse sit amet felis odio, non volutpat ante. Sed eu lectus quam. Curabitur tristique rhoncus est, vel commodo tortor suscipit semper. Maecenas feugiat vestibulum nisi id facilisis. Nulla non tincidunt libero. Praesent ultrices interdum commodo. Sed euismod nisl auctor leo ultrices rutrum. Aliquam nibh felis, congue molestie blandit at, bibendum at eros. Aenean tincidunt, tortor iaculis placerat sollicitudin, lorem justo tempor diam, et posuere sapien leo et magna. Quisque vel aliquam mauris.</p>
+<div class="epigraph">
+<blockquote>
+<p>The English language . . . becomes ugly and inaccurate because our thoughts are foolish, but the slovenliness of our language makes it easier for us to have foolish thoughts.</p>
+<footer>
+George Orwell, “Politics and the English Language”
+</footer>
+</blockquote>
+</div>
+<p>Proin varius tempus fermentum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed tincidunt nunc id magna adipiscing non sollicitudin turpis tempor. Etiam vel elit ipsum, quis euismod velit. Quisque elementum magna vitae quam venenatis lacinia. Sed at arcu ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec ut lorem ac sapien cursus lacinia sit amet mollis dolor. Vivamus tempus odio nec magna faucibus sed hendrerit lorem tempor.</p>
+<p>Vestibulum eu nisi arcu. Curabitur nisi risus, fermentum ut lacinia ut, interdum nec magna. Nunc aliquet gravida massa, eu aliquam lorem faucibus at. Sed sollicitudin volutpat velit id tempor. In nibh justo, pharetra et pretium dignissim, tempus in turpis. Phasellus eget lobortis nisl. Phasellus sed fermentum diam. Nam tempus pharetra odio, quis congue eros imperdiet eu. Aliquam dui eros, hendrerit et vulputate vel, porta eu eros. Nullam nisi dui, commodo eget pharetra ut, ornare sit amet nunc. Fusce vel neque urna. Maecenas nulla ante, egestas at consequat quis, fermentum a enim. Aliquam id tristique urna. Integer augue justo, scelerisque et consectetur id, rhoncus eget enim.</p>
+  </section>
+</article>
+
+    </main>
+
+    <footer>
+      Site proudly generated by
+      <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+      using the
+      <a href="https://github.com/edwardtufte/tufte-css">Tufte CSS theme</a>
+      and the
+      <a href="https://github.com/IBM/plex">IBM Plex</a> typeface.
+    </footer>
+  </body>
+</html>
