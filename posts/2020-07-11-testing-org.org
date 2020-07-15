@@ -1,13 +1,15 @@
 ---
 title: Are Haskell Functors actual Functors?
+subtitle: This is sibtitle
 author: Ramiro Leal
 date: 2020-07-13
-bibliography: bibliography:bib/references.bib
+bibliography: bibliography:../bib/references.bib
+tags: haskell, stuff
 ---
 
 ** How are functors defined in haskell?
 
-Are Haskell functors actual functors? Let’s take as an example the list instance of functor:[fn:1]
+Are Haskell "functors" actual functors? Let’s take as an example the list instance of functor:[fn:1]
 
 [fn:1] This is the actual implemenetation used in the [[https://hackage.haskell.org/package/base-4.14.0.0/docs/Prelude.html][Haskell Prelude]].
 
