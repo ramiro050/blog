@@ -2,6 +2,7 @@
 title: Are Haskell Functors actual Functors?
 author: Ramiro Leal
 date: 2020-07-13
+bibliography: bibliography:bib/references.bib
 ---
 
 ** How are functors defined in haskell?
@@ -20,10 +21,15 @@ instance Functor [] where
 
 In order to better understand if ~[]~ is a functor, we first need to note that a functor \(F : \mathbf{C} \to \mathbf{D}\) can take different things as inputs: Objects and Arrows. Thus, \(F\) can be thought of as a two functions in one:
 
+
 #+begin_src haskell :results output silent
 f ∷ Int → Int
 f x = x
 #+end_src
+
+This is a citation cite:10.1145/871895.871896
+
+This is a citation cite:10.1145/871895.871896
 
 #+begin_src haskell :results code
 ghci> take 4 [1..]
@@ -32,3 +38,5 @@ ghci> take 4 [1..]
 #+begin_src haskell
 [1,2,3,4]
 #+end_src
+
+----------------

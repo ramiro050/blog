@@ -195,6 +195,12 @@ p {
     vertical-align: baseline;
 }
 
+/* For references */
+div.references > div > p {
+    width: 55%;
+    font-size: 1.0rem;
+}
+
 /* Chapter Epigraphs */
 div.epigraph {
     margin: 5em 0;

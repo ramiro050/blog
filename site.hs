@@ -4,6 +4,7 @@ import           Data.Monoid (mappend)
 import           Hakyll
 import           Text.Pandoc.SideNote (usingSideNotes)
 import           Text.Pandoc.Options
+import           Control.Monad
 
 
 --------------------------------------------------------------------------------
@@ -16,6 +17,9 @@ main = hakyll $ do
     match "css/*" $ do
         route   idRoute
         compile compressCssCompiler
+
+    match "bib/references.bib" $ compile biblioCompiler
+    match "bib/style.csl" $ compile cslCompiler
 
     match "css/IBM-Plex-Serif/**" $ do
       route idRoute
@@ -42,7 +46,7 @@ main = hakyll $ do
 
     match "posts/*" $ do
         route $ setExtension "html"
-        compile $ pandocCompilerWithTransform defaultHakyllReaderOptions myWriterOptions usingSideNotes
+        compile $ bibtexCompiler "bib/style.csl" "bib/references.bib"
             >>= loadAndApplyTemplate "templates/post.html"    postCtx
             >>= loadAndApplyTemplate "templates/default.html" postCtx
             >>= relativizeUrls
@@ -85,5 +89,24 @@ postCtx =
     defaultContext
 
 myWriterOptions :: WriterOptions
-myWriterOptions = defaultHakyllWriterOptions
-  { writerHTMLMathMethod = MathJax defaultMathJaxURL }
+myWriterOptions = defaultHakyllWriterOptions {
+  writerHTMLMathMethod = MathJax defaultMathJaxURL }
+
+myReaderOptions :: ReaderOptions
+myReaderOptions = defaultHakyllReaderOptions {
+  -- At the moment YAML extension does not do anything...
+  readerExtensions = enableExtensionsIn defaultExts [Ext_citations,
+                                                     Ext_yaml_metadata_block] }
+  where defaultExts = readerExtensions defaultHakyllReaderOptions
+
+enableExtensionsIn :: Extensions -> [Extension] -> Extensions
+enableExtensionsIn oldExts newExts = foldr enableExtension oldExts newExts
+
+bibtexCompiler :: String -> String -> Compiler (Item String)
+bibtexCompiler cslFileName bibFileName = do
+  csl <- load $ fromFilePath cslFileName
+  bib <- load $ fromFilePath bibFileName
+  liftM (writePandocWith myWriterOptions)
+    (getResourceBody
+      >>= readPandocBiblio myReaderOptions csl bib
+      >>= withItemBody (pure . usingSideNotes))
