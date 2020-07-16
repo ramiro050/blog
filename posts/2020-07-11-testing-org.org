@@ -41,5 +41,3 @@ ghci> take 4 [1..]
 #+begin_src haskell
   fmap _ []     = [] fmap f (x:xs) = fx : fmap f xs fmap _ []     = [] fmap f (x:xs) = fx : fmap f xs
 #+end_src
-
-----------------

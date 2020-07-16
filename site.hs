@@ -157,29 +157,27 @@ bibtexCompiler cslFilePath bibFilePath = do
   bib <- load $ fromFilePath bibFilePath
   liftM (writePandocWith myWriterOptions)
     (getResourceBody
-      >>= readPandocBiblio' myReaderOptions csl bib
+      >>= readPandocBiblioWithTransform myReaderOptions csl bib pandocBiblioTransform
       >>= withItemBody (pure . usingSideNotes))
 
--- | Rewrite of 'readPandocBiblio' function from Hakyll in order to include metadata
--- for 'processCites'
-readPandocBiblio' :: ReaderOptions
-                  -> Item CSL
-                  -> Item Biblio
-                  -> (Item String)
-                  -> Compiler (Item Pandoc)
-readPandocBiblio' ropt csl biblio item = do
+-- | Rewrite of 'readPandocBiblio' function from Hakyll in order to include an
+-- Pandoc transformer before pandoc is passed to 'processCites'
+readPandocBiblioWithTransform :: ReaderOptions
+                              -> Item CSL
+                              -> Item Biblio
+                              -> (Pandoc -> Pandoc)
+                              -> (Item String)
+                              -> Compiler (Item Pandoc)
+readPandocBiblioWithTransform ropt csl biblio f item = do
     -- Parse CSL file, if given
     style <- unsafeCompiler $ CSL.readCSLFile Nothing . toFilePath . itemIdentifier $ csl
-
-    let metaData = [("link-citations", (MetaBool True)),
-                    ("reference-section-title", (MetaString "References"))]
 
     -- We need to know the citation keys, add then *before* actually parsing the
     -- actual page. If we don't do this, pandoc won't even consider them
     -- citations!
     let Biblio refs = itemBody biblio
     pandoc <- itemBody <$> readPandocWith ropt item
-    let pandoc' = processCites style refs (setMetaData metaData pandoc)
+    let pandoc' = processCites style refs (f pandoc)
     return $ fmap (const pandoc') item
 
 
@@ -188,3 +186,12 @@ setMetaData :: [(T.Text, MetaValue)] -> Pandoc -> Pandoc
 setMetaData metaData (Pandoc meta b) = Pandoc meta' b
   where meta' = Meta $ foldl step (unMeta meta) metaData
         step m (t, metaVal) = M.insert t metaVal m
+
+addHRule :: Pandoc -> Pandoc
+addHRule (Pandoc m b) = Pandoc m (b ++ [HorizontalRule])
+
+pandocBiblioTransform :: Pandoc -> Pandoc
+pandocBiblioTransform = addHRule . (setMetaData metaData)
+  where metaData = [("link-citations", MetaBool True),
+                    -- ("reference-section-title", MetaString "References"),
+                    ("suppress-bibliography", MetaBool False)]
