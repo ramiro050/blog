@@ -2,6 +2,7 @@
 title: Tufte CSS
 subtitle: Dave Liepmann
 date: 2020-01-01
+tags: haskell, tufte, css
 header-includes:
 - '<link rel="stylesheet" href="latex.css"/>'
 ---
