@@ -155,10 +155,9 @@ bibtexCompiler :: String -> String -> Compiler (Item String)
 bibtexCompiler cslFilePath bibFilePath = do
   csl <- load $ fromFilePath cslFilePath
   bib <- load $ fromFilePath bibFilePath
-  liftM (writePandocWith myWriterOptions)
-    (getResourceBody
-      >>= readPandocBiblioWithTransform myReaderOptions csl bib pandocBiblioTransform
-      >>= withItemBody (pure . usingSideNotes))
+  getResourceBody
+    >>= readPandocBiblioWithTransform myReaderOptions csl bib biblioTransform
+    >>= pure . (writePandocWith myWriterOptions)
 
 -- | Rewrite of 'readPandocBiblio' function from Hakyll in order to include an
 -- Pandoc transformer before pandoc is passed to 'processCites'
@@ -190,8 +189,8 @@ setMetaData metaData (Pandoc meta b) = Pandoc meta' b
 addHRule :: Pandoc -> Pandoc
 addHRule (Pandoc m b) = Pandoc m (b ++ [HorizontalRule])
 
-pandocBiblioTransform :: Pandoc -> Pandoc
-pandocBiblioTransform = addHRule . (setMetaData metaData)
+biblioTransform :: Pandoc -> Pandoc
+biblioTransform = usingSideNotes . addHRule . (setMetaData metaData)
   where metaData = [("link-citations", MetaBool True),
                     -- ("reference-section-title", MetaString "References"),
                     ("suppress-bibliography", MetaBool False)]
