@@ -5,6 +5,7 @@ import           Hakyll
 import           Text.Pandoc.SideNote (usingSideNotes)
 import           Text.Pandoc.Options
 import           Text.Pandoc.Definition
+import qualified Text.DocTemplates as Tpl
 import           Text.CSL.Pandoc (processCites)
 import qualified Text.CSL as CSL
 import qualified Data.Map as M
@@ -16,7 +17,12 @@ import           System.FilePath
 
 --------------------------------------------------------------------------------
 main :: IO ()
-main = hakyll $ do
+main = do
+  -- This has to be done here because you can only create doc templates
+  -- in the IO monad...
+  tocWriterOptions <- getTocWriterOptions
+
+  hakyll $ do
     match "images/*" $ do
         route   idRoute
         compile copyFileCompiler
@@ -70,7 +76,7 @@ main = hakyll $ do
 
     match "posts/*" $ do
         route $ setExtension "html"
-        compile $ postCompiler "bib/style.csl" "bib/"
+        compile $ postCompilerWith myReaderOptions tocWriterOptions "bib/style.csl" "bib/"
             >>= loadAndApplyTemplate "templates/post.html"    (postCtxWithTags tags)
             >>= loadAndApplyTemplate "templates/default.html" (postCtxWithTags tags)
             >>= relativizeUrls
@@ -117,6 +123,14 @@ postCtxWithTags tags = tagsField "tags" tags `mappend` postCtx
 
 
 --  PANDOC OPTIONS FUNCTIONS  --------------------------------------------------
+getTocWriterOptions :: IO WriterOptions
+getTocWriterOptions = do
+  eitherTpl <- Tpl.compileTemplate "" "$toc$\n$body$"
+  case eitherTpl of
+    Right tpl -> return $ myWriterOptions { writerTableOfContents = True,
+                                            writerTemplate = Just tpl }
+    Left s -> putStrLn s >> return myWriterOptions
+
 myWriterOptions :: WriterOptions
 myWriterOptions = defaultHakyllWriterOptions {
   writerHTMLMathMethod = MathJax defaultMathJaxURL }
@@ -144,20 +158,28 @@ getBibFilePath dir = do
 --
 -- If bibFile is found, post is compiled with references. Otherwise, it is compiled
 -- without them.
-postCompiler :: FilePath -> FilePath -> Compiler (Item String)
-postCompiler cslFilePath bibDir = do
+postCompilerWith :: ReaderOptions
+                 -> WriterOptions
+                 -> FilePath -- ^ CSL file path
+                 -> FilePath -- ^ Bib file directory
+                 -> Compiler (Item String)
+postCompilerWith ropt wopt cslFilePath bibDir = do
   maybeBibFilePath <- getBibFilePath bibDir
   case maybeBibFilePath of
-    Just bibFilePath -> bibtexCompiler cslFilePath bibFilePath
-    Nothing -> pandocCompilerWithTransform myReaderOptions myWriterOptions usingSideNotes
+    Just bibFilePath -> bibtexCompilerWith ropt wopt cslFilePath bibFilePath
+    Nothing -> pandocCompilerWithTransform ropt wopt usingSideNotes
 
-bibtexCompiler :: String -> String -> Compiler (Item String)
-bibtexCompiler cslFilePath bibFilePath = do
+bibtexCompilerWith :: ReaderOptions
+                   -> WriterOptions
+                   -> FilePath -- ^ CSL file path
+                   -> FilePath -- ^ Bib file path
+                   -> Compiler (Item String)
+bibtexCompilerWith ropt wopt cslFilePath bibFilePath = do
   csl <- load $ fromFilePath cslFilePath
   bib <- load $ fromFilePath bibFilePath
   getResourceBody
-    >>= readPandocBiblioWithTransform myReaderOptions csl bib biblioTransform
-    >>= pure . (writePandocWith myWriterOptions)
+    >>= readPandocBiblioWithTransform ropt csl bib biblioTransform
+    >>= pure . (writePandocWith wopt)
 
 -- | Rewrite of 'readPandocBiblio' function from Hakyll in order to include an
 -- Pandoc transformer before pandoc is passed to 'processCites'

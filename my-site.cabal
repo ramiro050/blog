@@ -11,6 +11,7 @@ executable site
                   , pandoc-sidenote
                   , pandoc-types
                   , pandoc-citeproc
+                  , doctemplates
                   , text
                   , containers
                   , directory
