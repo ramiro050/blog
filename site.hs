@@ -76,7 +76,13 @@ main = do
 
     match "posts/*" $ do
         route $ setExtension "html"
-        compile $ postCompilerWith myReaderOptions tocWriterOptions "bib/style.csl" "bib/"
+        compile $ do
+          useToc <- (pure . lookupString "toc") =<< getMetadata =<< getUnderlying
+          writerOptions <- case useToc of
+                             Just "true" -> return tocWriterOptions
+                             _ -> return myWriterOptions
+
+          postCompilerWith myReaderOptions writerOptions "bib/style.csl" "bib/"
             >>= loadAndApplyTemplate "templates/post.html"    (postCtxWithTags tags)
             >>= loadAndApplyTemplate "templates/default.html" (postCtxWithTags tags)
             >>= relativizeUrls
@@ -125,10 +131,17 @@ postCtxWithTags tags = tagsField "tags" tags `mappend` postCtx
 --  PANDOC OPTIONS FUNCTIONS  --------------------------------------------------
 getTocWriterOptions :: IO WriterOptions
 getTocWriterOptions = do
-  eitherTpl <- Tpl.compileTemplate "" "$toc$\n$body$"
+  eitherTpl <- Tpl.compileTemplate "" "<hr>\
+                                      \<p class=\"subtitle\">Contents</p>\
+                                      \$toc$\
+                                      \<hr>\
+                                      \$body$"
   case eitherTpl of
     Right tpl -> return $ myWriterOptions { writerTableOfContents = True,
-                                            writerTemplate = Just tpl }
+                                            writerTemplate = Just tpl,
+                                            writerTOCDepth = 2}
+    -- The Left case should never actually run, but it is here
+    -- in case something weird happens
     Left s -> putStrLn s >> return myWriterOptions
 
 myWriterOptions :: WriterOptions
