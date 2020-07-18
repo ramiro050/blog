@@ -87,6 +87,19 @@ main = do
             >>= loadAndApplyTemplate "templates/default.html" (postCtxWithTags tags)
             >>= relativizeUrls
 
+    match "drafts/*" $ do
+        route $ setExtension "html"
+        compile $ do
+          useToc <- (pure . lookupString "toc") =<< getMetadata =<< getUnderlying
+          writerOptions <- case useToc of
+                             Just "true" -> return tocWriterOptions
+                             _ -> return myWriterOptions
+
+          postCompilerWith myReaderOptions writerOptions "bib/style.csl" "bib/"
+            >>= loadAndApplyTemplate "templates/post.html"    (postCtxWithTags tags)
+            >>= loadAndApplyTemplate "templates/default.html" (postCtxWithTags tags)
+            >>= relativizeUrls
+
     create ["archive.html"] $ do
         route idRoute
         compile $ do

@@ -1,0 +1,8 @@
+---
+title: <code>fold</code>&colon; Themes and Variations
+date: 2020-01-01
+author: Ram
+tags: haskell, functional programming
+---
+
+** This is the first section
