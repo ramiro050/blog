@@ -74,20 +74,7 @@ main = do
     match "bib/*.bib" $ compile biblioCompiler
     match "bib/style.csl" $ compile cslCompiler
 
-    match "posts/*" $ do
-        route $ setExtension "html"
-        compile $ do
-          useToc <- (pure . lookupString "toc") =<< getMetadata =<< getUnderlying
-          writerOptions <- case useToc of
-                             Just "true" -> return tocWriterOptions
-                             _ -> return myWriterOptions
-
-          postCompilerWith myReaderOptions writerOptions "bib/style.csl" "bib/"
-            >>= loadAndApplyTemplate "templates/post.html"    (postCtxWithTags tags)
-            >>= loadAndApplyTemplate "templates/default.html" (postCtxWithTags tags)
-            >>= relativizeUrls
-
-    match "drafts/*" $ do
+    match ("posts/*" .||. "drafts/*") $ do
         route $ setExtension "html"
         compile $ do
           useToc <- (pure . lookupString "toc") =<< getMetadata =<< getUnderlying
@@ -103,6 +90,8 @@ main = do
     create ["archive.html"] $ do
         route idRoute
         compile $ do
+            -- The fact that posts are sorted by 'recentFirst' means that
+            -- dates are required for posts
             posts <- recentFirst =<< loadAll "posts/*"
             tagList <- renderTagList tags
             let archiveCtx =
