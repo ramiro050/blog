@@ -1,8 +1,120 @@
 ---
 title: <code>fold</code>&colon; Themes and Variations
 date: 2020-01-01
-author: Ram
+author: Ramiro Leal-Cavazos
 tags: haskell, functional programming
 ---
 
-** This is the first section
+** ~foldr~ and ~(++)~
+
+Let's begin by proving a useful property of foldr.
+
+*Theorem:* src_haskell{foldr f e (xs ++ ys) = foldr (flip (foldr f)) e [xs, ys]}.
+
+*Proof:* First, in order to improve readability, let
+
+#+begin_src haskell
+lhs = foldr f e
+rhs = foldr (flip (foldr f)) e
+#+end_src
+
+In addition, it will be useful to have a definition of ~++~. Below is one valid definition:
+
+#+begin_src haskell
+(++) ∷ [α] → [α] → [α]
+[] ++ ys     = ys
+(x:xs) ++ ys = x:(xs ++ ys)
+#+end_src
+
+Lastly, to avoid repeating calculations, note that
+
+#+begin_src haskell
+rhs [xs, ys]
+  = foldr (flip (foldr f)) e [xs, ys]
+  {- expanding outer foldr -}
+  = (flip (foldr f)) xs (foldr (flip (foldr f)) e [ys])
+  {- expanding second foldr -}
+  = (flip (foldr f)) xs ((flip (foldr f)) ys (foldr (flip (foldr f)) e []))
+  {- applying base case of foldr -}
+  = (flip (foldr f)) xs ((flip (foldr f)) ys e)
+  {- applying flips -}
+  = foldr f (foldr f e ys) xs
+#+end_src
+
+We will refer to this as the /first result/.
+
+*Base case:* First we will show that the equality holds when ~xs = []~.
+
+#+begin_src haskell
+rhs [[], ys]
+  {- using first result -}
+  = foldr f (foldr f e ys) []
+  {- applying base case of foldr -}
+  = foldr f e ys
+  {- applying definition of (++) -}
+  = foldr f e ([] ++ ys)
+  {- applying definition of lhs -}
+  = lhs ([] ++ ys)
+#+end_src
+
+Therefore, src_haskell{lhs ([] ++ ys) = rhs [[], ys]}. In other words, the base case is satisfied.
+
+*Inductive step:* Now, suppose that the equality src_haskell{lhs (xs ++ ys) = rhs [xs, ys]} holds. We will show that src_haskell{lhs ((x:xs) ++ ys) = rhs [x:xs, ys]}.
+
+#+begin_src haskell
+rhs [x:xs, ys]
+  {- using first result -}
+  = foldr f (foldr f e ys) (x:xs)
+  {- expanding outer foldr -}
+  = f x (foldr f (foldr f e ys) xs)
+  {- inserting flip -}
+  = f x ((flip (foldr f)) xs (flip (foldr f) ys e))
+  {- using definition of foldr -}
+  = f x (foldr (flip (foldr f)) e [xs, ys])
+  {- using inductive hypothesis -}
+  = f x (foldr f e (xs ++ ys))
+  {- applying definition of foldr -}
+  = foldr f e (x:(xs ++ ys))
+  {- applying definition of (++) -}
+  = foldr f e ((x:xs) ++ ys)
+  {- applying definition of lhs -}
+  = lhs ((x:xs) ++ ys)
+#+end_src
+
+Thus, src_haskell{lhs ((x:xs) ++ ys) = rhs [x:xs, ys]}. Since the base case and inductive step are satisfied, then by mathematical induction src_haskell{lhs (xs ++ ys) = rhs [xs, ys]} for all ~ys~ and finite ~xs~.
+
+#+begin_export html
+<p style="text-align:right"><b>Q.E.D.</b></p>
+#+end_export
+
+The above result happens to be a special case of the slightly more general result:
+
+#+begin_src haskell
+foldr f e ∘ concat = foldr (flip (foldr f)) e
+#+end_src
+
+Let's see what the type signature would be.
+
+#+begin_src haskell
+foldr ∷ (α → β → β) → β → [α] → β
+⇒ foldr f e ∘ concat ∷ [[α]] → β
+#+end_src
+
+** foldr of undefined
+
+#+begin_src haskell
+foldr f e ⊥ = ⊥
+#+end_src
+
+#+begin_src haskell :results output
+f :: Int -> Int
+f n = n
+f undefined = 0
+#+end_src
+
+#+begin_src haskell
+f undefined
+#+end_src
+
+#+RESULTS:
+: 0

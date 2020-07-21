@@ -401,10 +401,10 @@ div.table-wrapper {
 
 code, pre > code {
     font-family: IBM-Plex-Mono, Consolas, "Liberation Mono", Menlo, Courier, monospace;
-    /*font-size: 1.0rem;
-    line-height: 1.42;*/
+    /*font-size: 1.0rem;*/
+    line-height: 1.42;
     font-size: 1.2rem;
-    line-height: 1.7rem;
+    /*line-height: 1.7rem;*/
     -webkit-text-size-adjust: 100%; /* Prevent adjustments of font size after orientation changes in iOS. See https://github.com/edwardtufte/tufte-css/issues/81#issuecomment-261953409 */
 }
 
@@ -424,12 +424,21 @@ h3 > code {
 }
 
 pre > code {
-    /* font-size: 0.9rem; */
-    font-size: 1.2rem;
-    width: 52.5%;
-    margin-left: 2.5%;
+    /*font-size: 0.9rem;*/
+    font-size: 1.0rem;
+    line-height: 1.42rem;
+    /*width: 52.5%;
+    margin-left: 2.5%;*/
+    width: 54.0%;
+    margin-left: 1.0%;
     overflow-x: auto;
     display: block;
+}
+
+p > code {
+    background-color: #e0e0d8;
+    padding-inline: 0.4rem;
+    border-radius: 0.3rem;
 }
 
 pre.fullwidth > code {
