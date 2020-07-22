@@ -102,6 +102,12 @@ body {
     counter-reset: sidenote-counter;
 }
 
+pre {
+    border-left-style: solid;
+    border-left-color: #ccc;
+    border-left-width: 1px;
+}
+
 div.logo a {
     font-size: 2.2rem;
 }
@@ -427,10 +433,10 @@ pre > code {
     /*font-size: 0.9rem;*/
     font-size: 1.0rem;
     line-height: 1.42rem;
-    /*width: 52.5%;
-    margin-left: 2.5%;*/
-    width: 54.0%;
-    margin-left: 1.0%;
+    width: 53.5%;
+    margin-left: 1.5%;
+    /*width: 54.0%;
+    margin-left: 1.0%;*/
     overflow-x: auto;
     display: block;
 }
