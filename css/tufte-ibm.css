@@ -108,6 +108,16 @@ pre {
     border-left-width: 1px;
 }
 
+span.math.display {
+    font-size: 1.2rem;
+    width: 55%;
+    display: block;
+}
+
+span.math.inline {
+    font-size: 1.2rem;
+}
+
 div.logo a {
     font-size: 2.2rem;
 }
@@ -511,6 +521,16 @@ label.margin-toggle:not(.sidenote-number) {
 
     pre > code {
         width: 97%;
+    }
+
+    span.math.display {
+    font-size: 1.2rem;
+    width: 100%;
+    display: block;
+    }
+
+    span.math.inline {
+    font-size: 1.2rem;
     }
 
     section > dl,

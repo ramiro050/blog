@@ -1,0 +1,66 @@
+---
+title: Proof by Contradiction
+date: 2020-07-23
+tags: math
+---
+
+Proof by contradiction is a very common technique for proving mathematical theorems. Other methods include, proof by contrapositive, direct proofs, and proof by induction. Despite proof by contradiction being simple and often times a short way of proving that something is true, it can be very hard to learn to do correctly in the beginning. I believe that the often times proof by contradiction is hard to understand because:
+
+- the reason why it might be useful is not well motivated
+- the idea of assuming that something is not true is vaguely explained
+- when to use proof by contradiction
+
+Therefore, I will explore these two ideas in detail using a few examples that will hopefully makes things a bit more clear.
+
+** Usefulness of reframinig the question
+
+One way of thinking about proof by contradiction is as a raphrasing of the theorem we are trying to prove in order to make it easier to solve. This idea of rephrasing a question to make it easier to solve is used in many areas of study, not just mathematics.
+
+For example, suppose we are writing a program that answers the question "does the list ~xs~ have one or more elements?" A possible way of defining such a program is as follows:
+
+#+begin_src python
+def hasElements(xs):
+    return len(xs) > 0
+#+end_src
+
+If we assume that what the function ~len~ does is count all the elements in the list and then return that value, then for a really long list this operation can be quite expensive.[fn:len] However, we can make the calculation much more efficient by instead trying to answer the opposite of the question, and looking for when the opposite of the question is false.
+
+[fn:len] It turns out that most languages (Python included) store the length information of lists whenever a list is created so that calculating the length is an operation that takes constant time.
+
+However, this is not always the case in programming languages. For example in [[https://www.cplusplus.com/reference/list/list/size/][C++98]], calculating the length of a list did involve counting all the elements. This is no longer the case for more recent version of C++. Other examples of languages that count all the elements to determine the size are languages like [[https://hackage.haskell.org/package/base-4.12.0.0/docs/Prelude.html#v:length][Haskell]] and Lisp.
+
+
+In our case, the opposite of the question we are trying to solve is, "is the list empty?" A program that answer such a question can be written as:
+
+#+begin_src python
+def isEmpty(xs):
+    return xs == []
+#+end_src
+
+Since ~isEmpty~ simply compares to objects rather than count the elements inside ~xs~, it is much faster than ~hasElements~. We can now use this to answer our original question in a more efficient manner. Since ~hasElements~ is true when ~isEmpty~ is false, then we can redefine ~hasElements~ as:
+
+#+begin_src python
+def hasElements(xs):
+    return not isEmpty(xs)
+#+end_src
+
+*** Remarks
+
+The example above was chosen because of its similarity to proof by contradiction. In a proof by contradiction, you assume that the opposite of your theorem is true, and then show that it leads to a contradiction, similar to how showing that ~isEmpty~ was false (i.e. it led to a contradiction) was easier than showing that the original ~hasElements~ was true.
+
+In this particular case, reframing the question helped us solve the problem more efficiently. However, solving the opposite of the problem is not always the most efficient way of doing things. It is similar for proofs by contradiciton: it is a useful approach depending on the problem.
+
+** What does it mean to "suppose the opposite is true"?
+
+A phrase that is often used in the setup of a proof by contradiction is something along the lines of "for the sake of contradiction, suppose the opposite is true." However, often times it is not clear exactly what the "opposite" of something is. This turns out to be a big source of errors when doing a proof by contradiction.
+
+The exact definition of what "opposite" means is that it is the negation of the statement. This means that the best way to determine the "opposite" of a statement is by translating it into first order logic, and taking the negation of the entire thing. For example, the opposite of the statement \(\lnot (P \implies Q) = P \land \lnot Q\)
+
+#+begin_export latex
+\begin{align}
+  \lnot (P \implies Q) &= P \land \lnot Q\label{eq:1}\\
+  &= P \lor Q \lor R
+\end{align}
+#+end_export
+
+As can be seen from equation \(\eqref{eq:1}\)
