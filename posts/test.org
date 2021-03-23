@@ -1,7 +1,0 @@
----
-title: Hello
-author: Ramiro
-date: 2020-01-01
----
-
-** Stuff

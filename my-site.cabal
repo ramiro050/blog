@@ -6,8 +6,8 @@ cabal-version:      >= 1.10
 executable site
   main-is:          site.hs
   build-depends:    base == 4.*
-                  , hakyll == 4.13.*
-                  , pandoc == 2.9.2.1
+                  , hakyll
+                  , pandoc
                   , pandoc-sidenote
                   , pandoc-types
                   , pandoc-citeproc

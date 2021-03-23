@@ -5,19 +5,68 @@
 
 packages:
 - completed:
-    hackage: hakyll-4.13.3.0@sha256:7d8903f03974691aec049a6188ace8d93457563bad9f078c6faf4c9156e27a33,8867
+    hackage: hakyll-4.13.4.1@sha256:af3096c611bcb164143df2d9543e88f1eaabe76e8f0261423aff8382f10368c3,9212
     pantry-tree:
-      size: 7841
-      sha256: bdbacc241f680dd0c8d7666c9ec4e7d230dad85172067e106cc35f7c125cd7ab
+      size: 7842
+      sha256: 2cf57f61b0eb6f30beb01f78a65078138bfee0e4a4d8b6630ac4ddd91c7de6db
   original:
-    hackage: hakyll-4.13.3.0
+    hackage: hakyll-4.13.4.1
 - completed:
-    hackage: pandoc-2.9.2.1@sha256:0331f5ddf7bec06058fe38713ab55d3e60aac72b32f26a30e247a0ee5b15db13,36158
+    hackage: pandoc-2.10.1@sha256:23d7ec480c7cb86740475a419d6ca4819987b6dd23bbae9b50bc3d42a7ed2f9f,36933
     pantry-tree:
-      size: 88382
-      sha256: e5afe198bbb039f7801de61295978669fa64364bd3d01bb70580e03b53cf999d
+      size: 89646
+      sha256: 08c8b20356152b9ee8161bacafda2dc1bed13d7db4cbf38ab040c1977b2d28d5
   original:
-    hackage: pandoc-2.9.2.1
+    hackage: pandoc-2.10.1
+- completed:
+    hackage: doctemplates-0.8.3@sha256:b346b72d7351bfa1b16de3759f76854153e18fe3230b0115ab744c1f5bb0e36b,3127
+    pantry-tree:
+      size: 2364
+      sha256: f6915b379fe3802cdea14bfa7b15d04c7554c3d20cf0432848579b33025311af
+  original:
+    hackage: doctemplates-0.8.3@sha256:b346b72d7351bfa1b16de3759f76854153e18fe3230b0115ab744c1f5bb0e36b,3127
+- completed:
+    hackage: hslua-1.1.2@sha256:6c231b2af447430d1ed04f065d40bb6882ece93cc7f32f4051dc99deb69beeae,9694
+    pantry-tree:
+      size: 6820
+      sha256: 62e61f6d08191159a070dcbaa20284a581835de620105a254dbee1c7ddfabd9d
+  original:
+    hackage: hslua-1.1.2@sha256:6c231b2af447430d1ed04f065d40bb6882ece93cc7f32f4051dc99deb69beeae,9694
+- completed:
+    hackage: hslua-module-text-0.2.1@sha256:c97f7fea92d12cfc9923d6bf893a6b3918bda756893a8db7840349ff3199b054,1653
+    pantry-tree:
+      size: 415
+      sha256: c3620d1c0f4b4626c9364c18786fb3af2fac578874da578e5e96b4d9abfee175
+  original:
+    hackage: hslua-module-text-0.2.1@sha256:c97f7fea92d12cfc9923d6bf893a6b3918bda756893a8db7840349ff3199b054,1653
+- completed:
+    hackage: pandoc-citeproc-0.17.0.2@sha256:39c5c60a5eca2c1cb50ae9a00dc7093ca1baac78ad5be4e222505de257dce456,8737
+    pantry-tree:
+      size: 25684
+      sha256: 8a5f6398d750902d79c215a4c8f85c74f3e7ea572dd1f950d57e784669ac7a48
+  original:
+    hackage: pandoc-citeproc-0.17.0.2@sha256:39c5c60a5eca2c1cb50ae9a00dc7093ca1baac78ad5be4e222505de257dce456,8737
+- completed:
+    hackage: pandoc-types-1.21@sha256:b61ed625da4d1a0d8057fcca4c0c5e174c9f45d94b41504db1532f3fc581e945,4037
+    pantry-tree:
+      size: 713
+      sha256: e26eb93747538e29168032985a03b428039a16000fea1a4a8d9b9b032ac98b5f
+  original:
+    hackage: pandoc-types-1.21@sha256:b61ed625da4d1a0d8057fcca4c0c5e174c9f45d94b41504db1532f3fc581e945,4037
+- completed:
+    hackage: skylighting-0.8.5@sha256:a6e316e7440f0395d64f3a412cd6985783ec68a171e117d5e1bab1204c565a71,9726
+    pantry-tree:
+      size: 10380
+      sha256: 5921bd1c9df9fe368ac3d15b5e772358040fb32d57e7821ad9b8107e6955bc8d
+  original:
+    hackage: skylighting-0.8.5@sha256:a6e316e7440f0395d64f3a412cd6985783ec68a171e117d5e1bab1204c565a71,9726
+- completed:
+    hackage: skylighting-core-0.8.5@sha256:f35397ea99d7d0fd4f45899102c040408d2bab802ea9d08ad1a970be58b43b49,8056
+    pantry-tree:
+      size: 13279
+      sha256: 0bae843648475c76fc412153a40b62be0072a6251b6486d2108c2234ddc56f60
+  original:
+    hackage: skylighting-core-0.8.5@sha256:f35397ea99d7d0fd4f45899102c040408d2bab802ea9d08ad1a970be58b43b49,8056
 - completed:
     size: 4865
     url: https://github.com/jez/pandoc-sidenote/archive/766eb9db5c849b1007f5c310b8012e7da68e51a6.tar.gz
@@ -31,7 +80,7 @@ packages:
     url: https://github.com/jez/pandoc-sidenote/archive/766eb9db5c849b1007f5c310b8012e7da68e51a6.tar.gz
 snapshots:
 - completed:
-    size: 531701
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/16/4.yaml
-    sha256: d6119cdacc6d6b39c0bb8f6e11e8db6a21e92a38552e0d553414ba346592b53f
-  original: lts-16.4
+    size: 565715
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/17/7.yaml
+    sha256: 1b5e4124989399e60e7a7901f0cefd910beea546131fb07a13a7208c4cc8b7ee
+  original: lts-17.7
