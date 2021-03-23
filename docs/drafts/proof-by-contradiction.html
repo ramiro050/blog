@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Hakyll Blog - Proof by Contradiction</title>
+    <link rel="stylesheet" href="../css/tufte-ibm.css" />
+    <link rel="stylesheet" href="../css/styles/default.css">
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <a href="../">On Computer Science</a>
+      </div>
+      <nav class="group">
+        <a href="../">Home</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+        <a href="../archive.html">Archive</a>
+        <a href="https://github.com/ramiro050">Github</a>
+      </nav>
+    </header>
+
+    <main role="main">
+      <h1>Proof by Contradiction</h1>
+      
+      <article>
+  <section class="header">
+    
+    Posted on July 23, 2020 
+    <br>
+    
+    
+    Tags: 
+    
+  </section>
+  <section>
+    <p>Proof by contradiction is a very common technique for proving mathematical theorems. Other methods include, proof by contrapositive, direct proofs, and proof by induction. Despite proof by contradiction being simple and often times a short way of proving that something is true, it can be very hard to learn to do correctly in the beginning. I believe that the often times proof by contradiction is hard to understand because:</p>
+<ul>
+<li>the reason why it might be useful is not well motivated</li>
+<li>the idea of assuming that something is not true is vaguely explained</li>
+<li>when to use proof by contradiction</li>
+</ul>
+<p>Therefore, I will explore these two ideas in detail using a few examples that will hopefully makes things a bit more clear.</p>
+<h2 id="usefulness-of-reframinig-the-question">Usefulness of reframinig the question</h2>
+<p>One way of thinking about proof by contradiction is as a raphrasing of the theorem we are trying to prove in order to make it easier to solve. This idea of rephrasing a question to make it easier to solve is used in many areas of study, not just mathematics.</p>
+<p>For example, suppose we are writing a program that answers the question “does the list <code>xs</code> have one or more elements?” A possible way of defining such a program is as follows:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">def</span> hasElements(xs):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>    <span class="cf">return</span> <span class="bu">len</span>(xs) <span class="op">&gt;</span> <span class="dv">0</span></span></code></pre></div>
+<p>If we assume that what the function <code>len</code> does is count all the elements in the list and then return that value, then for a really long list this operation can be quite expensive.<span><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">It turns out that most languages (Python included) store the length information of lists whenever a list is created so that calculating the length is an operation that takes constant time.<br />
+<br />
+However, this is not always the case in programming languages. For example in <a href="https://www.cplusplus.com/reference/list/list/size/">C++98</a>, calculating the length of a list did involve counting all the elements. This is no longer the case for more recent version of C++. Other examples of languages that count all the elements to determine the size are languages like <a href="https://hackage.haskell.org/package/base-4.12.0.0/docs/Prelude.html#v:length">Haskell</a> and Lisp.<br />
+<br />
+</span></span> However, we can make the calculation much more efficient by instead trying to answer the opposite of the question, and looking for when the opposite of the question is false.</p>
+<p>In our case, the opposite of the question we are trying to solve is, “is the list empty?” A program that answer such a question can be written as:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">def</span> isEmpty(xs):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>    <span class="cf">return</span> xs <span class="op">==</span> []</span></code></pre></div>
+<p>Since <code>isEmpty</code> simply compares to objects rather than count the elements inside <code>xs</code>, it is much faster than <code>hasElements</code>. We can now use this to answer our original question in a more efficient manner. Since <code>hasElements</code> is true when <code>isEmpty</code> is false, then we can redefine <code>hasElements</code> as:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">def</span> hasElements(xs):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>    <span class="cf">return</span> <span class="kw">not</span> isEmpty(xs)</span></code></pre></div>
+<h3 id="remarks">Remarks</h3>
+<p>The example above was chosen because of its similarity to proof by contradiction. In a proof by contradiction, you assume that the opposite of your theorem is true, and then show that it leads to a contradiction, similar to how showing that <code>isEmpty</code> was false (i.e. it led to a contradiction) was easier than showing that the original <code>hasElements</code> was true.</p>
+<p>In this particular case, reframing the question helped us solve the problem more efficiently. However, solving the opposite of the problem is not always the most efficient way of doing things. It is similar for proofs by contradiciton: it is a useful approach depending on the problem.</p>
+<h2 id="what-does-it-mean-to-suppose-the-opposite-is-true">What does it mean to “suppose the opposite is true”?</h2>
+<p>A phrase that is often used in the setup of a proof by contradiction is something along the lines of “for the sake of contradiction, suppose the opposite is true.” However, often times it is not clear exactly what the “opposite” of something is. This turns out to be a big source of errors when doing a proof by contradiction.</p>
+<p>The exact definition of what “opposite” means is that it is the negation of the statement. This means that the best way to determine the “opposite” of a statement is by translating it into first order logic, and taking the negation of the entire thing. For example, the opposite of the statement <span class="math inline">\(\lnot (P \implies Q) = P \land \lnot Q\)</span></p>
+<span class="math display">\[\begin{align}
+  \lnot (P \implies Q) &amp;= P \land \lnot Q\label{eq:1}\\
+  &amp;= P \lor Q \lor R
+\end{align}
+\]</span>
+<p>As can be seen from equation <span class="math inline">\(\eqref{eq:1}\)</span></p>
+  </section>
+</article>
+
+    </main>
+
+    <footer>
+      Site proudly generated by
+      <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+      using the
+      <a href="https://github.com/edwardtufte/tufte-css">Tufte CSS theme</a>
+      and the
+      <a href="https://github.com/IBM/plex">IBM Plex</a> typeface.
+    </footer>
+  </body>
+</html>

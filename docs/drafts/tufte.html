@@ -36,19 +36,29 @@
     <main role="main">
       <h1>Tufte CSS</h1>
       
-      <h3>Dave Liepmann</h3>
+      <p class="subtitle">Dave Liepmann</p>
       
       <article>
   <section class="header">
-    Posted on January  1, 2020
     
+    Posted on January  1, 2020 
     <br>
+    
     
     Tags: 
     
   </section>
   <section>
-    <p>Tufte CSS provides tools to style web articles using the ideas demonstrated by Edward Tufte’s books and handouts. Tufte’s style is known for its simplicity, extensive use of sidenotes, tight integration of graphics with text, and carefully chosen typography.</p>
+    <hr><p class="subtitle">Contents</p><ul>
+<li><a href="#getting-started">Getting Started</a></li>
+<li><a href="#fundamentals">Fundamentals</a></li>
+<li><a href="#epigraphs">Epigraphs</a></li>
+<li><a href="#sidenotes-footnotes-and-marginal-notes">Sidenotes: Footnotes and Marginal Notes</a></li>
+<li><a href="#figures">Figures</a></li>
+<li><a href="#code">Code</a></li>
+<li><a href="#imagequilts">ImageQuilts</a></li>
+<li><a href="#epilogue">Epilogue</a></li>
+</ul><hr><p>Tufte CSS provides tools to style web articles using the ideas demonstrated by Edward Tufte’s books and handouts. Tufte’s style is known for its simplicity, extensive use of sidenotes, tight integration of graphics with text, and carefully chosen typography.</p>
 <p>Tufte CSS was created by <a href="http://www.daveliepmann.com">Dave Liepmann</a> and is now an Edward Tufte project. The original idea was cribbed from <a href="https://tufte-latex.github.io/tufte-latex/">Tufte-<span class="latex">L<span class="latex-sup">a</span>T<span class="latex-sub">e</span>X</span></a> and <a href="http://rmarkdown.rstudio.com/tufte_handout_format.html">R Markdown’s Tufte Handout format</a>. We give hearty thanks to all the people who have contributed to those projects.</p>
 <p>If you see anything that Tufte CSS could improve, we welcome your contribution in the form of an issue or pull request on the GitHub project: <a href="https://github.com/edwardtufte/tufte-css">tufte-css</a>. Please note the <a href="https://github.com/edwardtufte/tufte-css#contributing">contribution guidelines</a>.</p>
 <p>Finally, a reminder about the goal of this project. The web is not print. Webpages are not books. Therefore, the goal of Tufte CSS is not to say “websites should look like this interpretation of Tufte’s books” but rather “here are some techniques Tufte developed that we’ve found useful in print; maybe you can find a way to make them useful on the web”. Tufte CSS is merely a sketch of one way to implement this particular set of ideas. It should be a starting point, not a design goal, because any project should present their information as best suits their particular circumstances.</p>
@@ -79,7 +89,7 @@
 <p class="sans">
 If you prefer sans-serifs, use the <code>sans</code> class. It relies on Gill Sans, Tufte’s sans-serif font of choice.
 </p>
-<p>Links in Tufte CSS match the body text in color and do not change on mouseover or when clicked. Here is a <a href="#">dummy example</a> that goes nowhere. These links are underlined, since this is the most widely recognized indicator of clickable text.<span><label for="sn-2" class="margin-toggle">⊕</label><input type="checkbox" id="sn-2" class="margin-toggle" /><span class="marginnote"> Blue text, while also a widely recognizable clickable-text indicator, is crass and distracting. Luckily, it is also rendered unnecessary by the use of underlining.<br />
+<p>Links in Tufte CSS match the body text in color and do not change on mouseover or when clicked. Here is a <a href="#">dummy example</a> that goes nowhere. These links are underlined, since this is the most widely recognized indicator of clickable text. <span><label for="sn-2" class="margin-toggle">⊕</label><input type="checkbox" id="sn-2" class="margin-toggle" /><span class="marginnote"> Blue text, while also a widely recognizable clickable-text indicator, is crass and distracting. Luckily, it is also rendered unnecessary by the use of underlining.<br />
 <br />
 </span></span> However, because most browsers’ default underlining does not clear descenders and is so thick and distracting, the underline effect is instead achieved using CSS trickery involving background gradients instead of standard <code>text-decoration</code>. Credit goes to Adam Schwartz for that technique.</p>
 <p>As always, these design choices are merely one approach that Tufte CSS provides by default. Other approaches, such as changing color on click or mouseover, or using highlighting or color instead of underlining to denote links, could also be made to work. The goal is to make sentences readable without interference from links, as well as to make links immediately identifiable even by casual web users.</p>

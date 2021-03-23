@@ -15,6 +15,9 @@ import           System.Directory
 import           System.FilePath
 
 
+config :: Configuration
+config = defaultConfiguration { destinationDirectory = "docs" }
+
 --------------------------------------------------------------------------------
 main :: IO ()
 main = do
@@ -22,7 +25,7 @@ main = do
   -- in the IO monad...
   tocWriterOptions <- getTocWriterOptions
 
-  hakyll $ do
+  hakyllWith config $ do
     match "images/*" $ do
         route   idRoute
         compile copyFileCompiler

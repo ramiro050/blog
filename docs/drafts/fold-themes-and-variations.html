@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Hakyll Blog - <code>fold</code>&colon; Themes and Variations</title>
+    <link rel="stylesheet" href="../css/tufte-ibm.css" />
+    <link rel="stylesheet" href="../css/styles/default.css">
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <a href="../">On Computer Science</a>
+      </div>
+      <nav class="group">
+        <a href="../">Home</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+        <a href="../archive.html">Archive</a>
+        <a href="https://github.com/ramiro050">Github</a>
+      </nav>
+    </header>
+
+    <main role="main">
+      <h1><code>fold</code>&colon; Themes and Variations</h1>
+      
+      <article>
+  <section class="header">
+    
+    Posted on January  1, 2020  by Ramiro Leal-Cavazos
+    <br>
+    
+    
+    Tags: 
+    
+  </section>
+  <section>
+    <h2 id="foldr-and"><code>foldr</code> and <code>(++)</code></h2>
+<p>Let’s begin by proving a useful property of foldr.</p>
+<p><strong>Theorem:</strong> <code class="sourceCode haskell"><span class="fu">foldr</span> f e (xs <span class="op">++</span> ys) <span class="ot">=</span> <span class="fu">foldr</span> (<span class="fu">flip</span> (<span class="fu">foldr</span> f)) e [xs, ys]</code>.</p>
+<p><strong>Proof:</strong> First, in order to improve readability, let</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>lhs <span class="ot">=</span> <span class="fu">foldr</span> f e</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>rhs <span class="ot">=</span> <span class="fu">foldr</span> (<span class="fu">flip</span> (<span class="fu">foldr</span> f)) e</span></code></pre></div>
+<p>In addition, it will be useful to have a definition of <code>++</code>. Below is one valid definition:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>(<span class="op">++</span>) <span class="ot">∷</span> [α] <span class="ot">→</span> [α] <span class="ot">→</span> [α]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>[] <span class="op">++</span> ys     <span class="ot">=</span> ys</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>(x<span class="op">:</span>xs) <span class="op">++</span> ys <span class="ot">=</span> x<span class="op">:</span>(xs <span class="op">++</span> ys)</span></code></pre></div>
+<p>Lastly, to avoid repeating calculations, note that</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>rhs [xs, ys]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>  <span class="ot">=</span> <span class="fu">foldr</span> (<span class="fu">flip</span> (<span class="fu">foldr</span> f)) e [xs, ys]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>  <span class="co">{- expanding outer foldr -}</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>  <span class="ot">=</span> (<span class="fu">flip</span> (<span class="fu">foldr</span> f)) xs (<span class="fu">foldr</span> (<span class="fu">flip</span> (<span class="fu">foldr</span> f)) e [ys])</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>  <span class="co">{- expanding second foldr -}</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>  <span class="ot">=</span> (<span class="fu">flip</span> (<span class="fu">foldr</span> f)) xs ((<span class="fu">flip</span> (<span class="fu">foldr</span> f)) ys (<span class="fu">foldr</span> (<span class="fu">flip</span> (<span class="fu">foldr</span> f)) e []))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>  <span class="co">{- applying base case of foldr -}</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>  <span class="ot">=</span> (<span class="fu">flip</span> (<span class="fu">foldr</span> f)) xs ((<span class="fu">flip</span> (<span class="fu">foldr</span> f)) ys e)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a>  <span class="co">{- applying flips -}</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>  <span class="ot">=</span> <span class="fu">foldr</span> f (<span class="fu">foldr</span> f e ys) xs</span></code></pre></div>
+<p>We will refer to this as the <em>first result</em>.</p>
+<p><strong>Base case:</strong> First we will show that the equality holds when <code>xs = []</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>rhs [[], ys]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>  <span class="co">{- using first result -}</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>  <span class="ot">=</span> <span class="fu">foldr</span> f (<span class="fu">foldr</span> f e ys) []</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>  <span class="co">{- applying base case of foldr -}</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>  <span class="ot">=</span> <span class="fu">foldr</span> f e ys</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>  <span class="co">{- applying definition of (++) -}</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a>  <span class="ot">=</span> <span class="fu">foldr</span> f e ([] <span class="op">++</span> ys)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a>  <span class="co">{- applying definition of lhs -}</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a>  <span class="ot">=</span> lhs ([] <span class="op">++</span> ys)</span></code></pre></div>
+<p>Therefore, <code class="sourceCode haskell">lhs ([] <span class="op">++</span> ys) <span class="ot">=</span> rhs [[], ys]</code>. In other words, the base case is satisfied.</p>
+<p><strong>Inductive step:</strong> Now, suppose that the equality <code class="sourceCode haskell">lhs (xs <span class="op">++</span> ys) <span class="ot">=</span> rhs [xs, ys]</code> holds. We will show that <code class="sourceCode haskell">lhs ((x<span class="op">:</span>xs) <span class="op">++</span> ys) <span class="ot">=</span> rhs [x<span class="op">:</span>xs, ys]</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>rhs [x<span class="op">:</span>xs, ys]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>  <span class="co">{- using first result -}</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>  <span class="ot">=</span> <span class="fu">foldr</span> f (<span class="fu">foldr</span> f e ys) (x<span class="op">:</span>xs)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>  <span class="co">{- expanding outer foldr -}</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>  <span class="ot">=</span> f x (<span class="fu">foldr</span> f (<span class="fu">foldr</span> f e ys) xs)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>  <span class="co">{- inserting flip -}</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a>  <span class="ot">=</span> f x ((<span class="fu">flip</span> (<span class="fu">foldr</span> f)) xs (<span class="fu">flip</span> (<span class="fu">foldr</span> f) ys e))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a>  <span class="co">{- using definition of foldr -}</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a>  <span class="ot">=</span> f x (<span class="fu">foldr</span> (<span class="fu">flip</span> (<span class="fu">foldr</span> f)) e [xs, ys])</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true"></a>  <span class="co">{- using inductive hypothesis -}</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true"></a>  <span class="ot">=</span> f x (<span class="fu">foldr</span> f e (xs <span class="op">++</span> ys))</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true"></a>  <span class="co">{- applying definition of foldr -}</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true"></a>  <span class="ot">=</span> <span class="fu">foldr</span> f e (x<span class="op">:</span>(xs <span class="op">++</span> ys))</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true"></a>  <span class="co">{- applying definition of (++) -}</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true"></a>  <span class="ot">=</span> <span class="fu">foldr</span> f e ((x<span class="op">:</span>xs) <span class="op">++</span> ys)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true"></a>  <span class="co">{- applying definition of lhs -}</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true"></a>  <span class="ot">=</span> lhs ((x<span class="op">:</span>xs) <span class="op">++</span> ys)</span></code></pre></div>
+<p>Thus, <code class="sourceCode haskell">lhs ((x<span class="op">:</span>xs) <span class="op">++</span> ys) <span class="ot">=</span> rhs [x<span class="op">:</span>xs, ys]</code>. Since the base case and inductive step are satisfied, then by mathematical induction <code class="sourceCode haskell">lhs (xs <span class="op">++</span> ys) <span class="ot">=</span> rhs [xs, ys]</code> for all <code>ys</code> and finite <code>xs</code>.</p>
+<p style="text-align:right"><b>Q.E.D.</b></p>
+
+<p>The above result happens to be a special case of the slightly more general result:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="fu">foldr</span> f e ∘ <span class="fu">concat</span> <span class="ot">=</span> <span class="fu">foldr</span> (<span class="fu">flip</span> (<span class="fu">foldr</span> f)) e</span></code></pre></div>
+<p>Let’s see what the type signature would be.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="fu">foldr</span> <span class="ot">∷</span> (α <span class="ot">→</span> β <span class="ot">→</span> β) <span class="ot">→</span> β <span class="ot">→</span> [α] <span class="ot">→</span> β</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="ot">⇒</span> <span class="fu">foldr</span> f e ∘ <span class="fu">concat</span> <span class="ot">∷</span> [[α]] <span class="ot">→</span> β</span></code></pre></div>
+<h2 id="foldr-of-undefined">foldr of undefined</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="fu">foldr</span> f e ⊥ <span class="ot">=</span> ⊥</span></code></pre></div>
+<div class="sourceCode" id="cb9" data-results="output"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="ot">f ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>f n <span class="ot">=</span> n</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>f <span class="fu">undefined</span> <span class="ot">=</span> <span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>f <span class="fu">undefined</span></span></code></pre></div>
+  </section>
+</article>
+
+    </main>
+
+    <footer>
+      Site proudly generated by
+      <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+      using the
+      <a href="https://github.com/edwardtufte/tufte-css">Tufte CSS theme</a>
+      and the
+      <a href="https://github.com/IBM/plex">IBM Plex</a> typeface.
+    </footer>
+  </body>
+</html>
